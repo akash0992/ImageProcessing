@@ -4,9 +4,14 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var TransformSchema = new Schema({
-  name: String,
-  info: String,
-  active: Boolean
+  uploadUrl: String,
+  transformUrl: String,
+  settings:{
+    width:{type:Number},
+    height:{type:Number},
+    quality:{type:Number},
+    ext:{type:String}  //ext = extension
+  }
 });
 
 module.exports = mongoose.model('Transform', TransformSchema);
