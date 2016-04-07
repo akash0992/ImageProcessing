@@ -4,14 +4,20 @@
   padding-left: 0%;
   padding-top: 1%;
   min-height: 470px;
+  max-height: 470px;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 .leftBorder{
-  border-left: 3px solid #808080;
+  /*border-left: 3px solid #808080;*/
   padding-right: 0%;
   padding-left: 0%;
   padding-top: 1%;
   min-height: 470px;
+  max-height: 470px;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 .custPadding{
