@@ -1,0 +1,29 @@
+.rgtBorder{
+  border-right: 3px solid #808080;
+  padding-right: 0%;
+  padding-left: 0%;
+  padding-top: 1%;
+  min-height: 470px;
+}
+
+.leftBorder{
+  border-left: 3px solid #808080;
+  padding-right: 0%;
+  padding-left: 0%;
+  padding-top: 1%;
+  min-height: 470px;
+}
+
+.custPadding{
+
+  padding-right: 0%;
+  padding-left: 0%;
+  min-height: inherit;
+}
+
+.custMargin{
+
+  margin-left: 0%;
+  margin-right: 0%;
+  min-height: inherit;
+}

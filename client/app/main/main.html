@@ -3,7 +3,7 @@
 <header class="hero-unit" id="banner">
   <div class="container">
     <h1>Image Processing is Never been So easy </h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
+    <p class="lead">Give it a try</p>
     <img src="assets/images/yeoman.png" alt="I'm Yeoman">
   </div>
 </header>
@@ -14,6 +14,9 @@
       <h1 class="page-header">Features:</h1>
       <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6 centerAlgin" ng-repeat="thing in Main.awesomeThings">
         <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}</a></li>
+      </ul>
+      <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12 centerAlgin2" ng-if="Main.isLoggedIn()">
+        <li><a ui-sref="processing.c1" tooltip="Start Processing">Begin Processing</a></li>
       </ul>
     </div>
   </div>

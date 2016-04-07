@@ -6,6 +6,6 @@ angular.module('imageProcessingApp')
       .state('uploadImage', {
         url: '/uploadImage',
         templateUrl: 'app/uploadImage/uploadImage.html',
-        controller: 'UploadImageCtrl'
+        controller: 'UploadImageCtrl as UploadImage'
       });
   });

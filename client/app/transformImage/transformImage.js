@@ -6,6 +6,6 @@ angular.module('imageProcessingApp')
       .state('transformImage', {
         url: '/transformImage',
         templateUrl: 'app/transformImage/transformImage.html',
-        controller: 'TransformImageCtrl'
+        controller: 'TransformImageCtrl as TransformImage'
       });
   });
