@@ -58,3 +58,24 @@
     ["$q", "$log", fileReader]);
 
 }(angular.module("imageProcessingApp")));
+
+
+angular.module("imageProcessingApp")
+  .factory('UploadImageApi', function ($resource) {
+
+    return $resource('/api/uploads/:id/:controller', {
+        id: '@_id',controller: '@controller'
+      },
+      {
+        get: {
+        method: 'GET',
+        isArray :true
+        },
+
+        post:{
+          method : 'POST',
+          transformRequest:angular.identity,
+          headers:{'Content-Type': undefined}
+        }
+      });
+  })

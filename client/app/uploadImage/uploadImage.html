@@ -13,18 +13,20 @@
                 </span>
       </div><!-- /input-group image-preview [TO HERE]-->
     </form>
- <!--   UploadImage.file :: {{UploadImage.file}}</br>
+<!--    UploadImage.file :: {{UploadImage.file}}</br>
     UploadImage.image_source :: {{UploadImage.image_source}}</br>
     UploadImage.currentFile :: {{UploadImage.currentFile}}</br>
     UploadImage.document :: {{UploadImage.document}}</br>
     UploadImage.fileName :: {{UploadImage.fileName}}</br>-->
   </div>
-  <div ng-if="UploadImage.file != undefined " class="col-xs-12">
+  <div ng-show="UploadImage.file" class="col-xs-12 preMargin">
     <img ng-src="{{UploadImage.image_source}}" class="img-size img-responsive img-thumbnail col-xs-12 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-1" alt="img_preview_not_available">
-    <div class="col-xs-12 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-1">
-      <button type="button" class="btn btn-danger pull-left">Reject</button>
-      <button type="button" class="btn btn-success pull-right">Upload</button>
+    <div class="col-md-12 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-1 previewMargin">
+      <button type="button" class="btn btn-danger pull-left shiftRgt" ng-click="UploadImage.reject()">Reject</button>
+      <button type="button" class="btn btn-success pull-right" ng-click="UploadImage.upload()">Upload</button>
     </div>
   </div>
 </div>
+
+
 

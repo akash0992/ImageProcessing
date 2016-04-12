@@ -8,7 +8,8 @@ var UploadSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId, //Reference of owner of image
     ref: 'user'
   },
-  uploadUrl: String
+  uploadUrl: String,
+  uploadObject: Object
 });
 
 module.exports = mongoose.model('Upload', UploadSchema);
