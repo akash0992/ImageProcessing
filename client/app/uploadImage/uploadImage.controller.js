@@ -73,7 +73,7 @@ angular.module('imageProcessingApp')
       var fd = new FormData();
 
         fd.append('file',UploadImage.file );
-        fd.append('image_source',UploadImage.image_source );
+        //fd.append('image_source',UploadImage.image_source );
 
 
       UploadImageApi.post(fd,function(result){
