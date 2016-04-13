@@ -7,7 +7,10 @@ var UploadService = require('./upload.service');
 // Get list of uploads
 exports.indexUpload = function(req, res) {
 
-  UploadService.index(function (err, uploads) {
+  var criteria = {};
+  criteria.userID = req.user._id;
+
+  UploadService.index(criteria,function (err, uploads) {
 
     if(err) { return handleError(res, err); }
 
@@ -38,7 +41,10 @@ exports.createUpload = function(req, res) {
   var userID = req.user._id;
   var file = req.file;
 
-  UploadService.create(userID, file, req, function(err, upload) {
+  //console.log("req :: ",req);
+  //console.log("file :: ",file);
+
+  UploadService.create(userID, file, function(err, upload) {
 
     if(err) { return handleError(res, err); }
 

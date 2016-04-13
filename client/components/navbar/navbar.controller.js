@@ -11,7 +11,6 @@ angular.module('imageProcessingApp')
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.getCurrentUser = Auth.getCurrentUser;
 
-    console.log("current user >>>>>>>>>>>>",Auth.getCurrentUser());
 
     $scope.logout = function() {
       Auth.logout();

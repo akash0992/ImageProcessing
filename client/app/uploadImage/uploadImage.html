@@ -1,31 +1,63 @@
 <div class="col-md-12" ng-controller="UploadImageCtrl as UploadImage" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
-  <div class="col-xs-12 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-1">
-    <form enctype="multipart/form-data" name="uploadImageForm">
-      <div class="input-group image-preview">
-        <input type="text" class="form-control image-preview-filename" disabled="disabled" data-ng-model="UploadImage.fileName"> <!-- don't give a name === doesn't send on POST/GET -->
+
+  <div class="uploadImg clearfix">
+
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-1">
+      <form enctype="multipart/form-data" name="uploadImageForm">
+        <div class="input-group image-preview">
+          <input type="text" class="form-control image-preview-filename" disabled="disabled" data-ng-model="UploadImage.fileName"> <!-- don't give a name === doesn't send on POST/GET -->
                 <span class="input-group-btn">
-                    <!-- image-preview-input -->
+
                     <div class="btn btn-default image-preview-input">
                       <span class="glyphicon glyphicon-folder-open"></span>
                       <span class="image-preview-input-title">Browse</span>
                       <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview" id="upload" file-model="UploadImage.file" ng-model="document" valid-file onchange="angular.element(this).scope().setFile(this)"/> <!-- rename it -->
                     </div>
                 </span>
-      </div><!-- /input-group image-preview [TO HERE]-->
-    </form>
-<!--    UploadImage.file :: {{UploadImage.file}}</br>
-    UploadImage.image_source :: {{UploadImage.image_source}}</br>
-    UploadImage.currentFile :: {{UploadImage.currentFile}}</br>
-    UploadImage.document :: {{UploadImage.document}}</br>
-    UploadImage.fileName :: {{UploadImage.fileName}}</br>-->
-  </div>
-  <div ng-show="UploadImage.file" class="col-xs-12 preMargin">
-    <img ng-src="{{UploadImage.image_source}}" class="img-size img-responsive img-thumbnail col-xs-12 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-1" alt="img_preview_not_available">
-    <div class="col-md-12 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-1 previewMargin">
-      <button type="button" class="btn btn-danger pull-left shiftRgt" ng-click="UploadImage.reject()">Reject</button>
-      <button type="button" class="btn btn-success pull-right" ng-click="UploadImage.upload()">Upload</button>
+        </div>
+      </form>
     </div>
+
+    <div ng-show="UploadImage.file" class="col-xs-12 preMargin">
+      <img ng-src="{{UploadImage.image_source}}" class="img-size img-responsive img-thumbnail col-xs-12 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-1" alt="img_preview_not_available">
+      <div class="col-md-12 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-1 previewMargin">
+        <button type="button" class="btn btn-danger pull-left shiftRgt" ng-click="UploadImage.reject()">Reject</button>
+        <button type="button" class="btn btn-success pull-right" ng-click="UploadImage.upload()">Upload</button>
+      </div>
+    </div>
+
+    <!--Loader-->
+    <div ng-show="UploadImage.loader" id="loader" class="cen">
+      <span id="loaderSpan"></span>
+      <img src="../assets/images/processing%20(1).gif" alt="I'm Yeoman">
+    </div>
+
   </div>
+
+  <div class = "row dist">
+
+    <div class = "col-sm-12 col-md-6 clearfix dist" ng-repeat="uploaded in UploadImage.imageArray">
+      <div class = "thumbnail">
+        <img src = '{{uploaded.uploadUrl}}' alt = '{{uploaded.uploadObject.original_filename}}' class=" uploadImg">
+      </div>
+
+      <div class = "caption">
+        <p>
+          <a href = "#" class = "btn btn-primary pull-left" role = "button">
+            Transform
+          </a>
+
+          <a href = "#" class = "btn btn-danger pull-right" role =" button" ng-click="UploadImage.delete($index)">
+            Delete
+          </a>
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+
 </div>
 
 

@@ -76,6 +76,10 @@ angular.module("imageProcessingApp")
           method : 'POST',
           transformRequest:angular.identity,
           headers:{'Content-Type': undefined}
+        },
+
+        delete:{
+          method : 'DELETE'
         }
       });
   })

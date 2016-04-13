@@ -27,5 +27,5 @@ module.exports = {
     api_key: '827252699874268',
     api_secret: '3DURJxUyusq-5LZmHlGHt81UODA'
   },
-  seedDB: true
+  seedDB: false
 };

@@ -2,16 +2,24 @@
 
 angular.module('imageProcessingApp')
   .controller('UploadImageCtrl', function ($scope,fileReader,UploadImageApi) {
-    console.log('UploadImageCtrl has been loaded---------------------');
+
     var UploadImage = this;
     UploadImage.message = 'Hello';
     UploadImage.fileName = '';
     UploadImage.imageArray = [];
     UploadImage.currentFile = '';
     UploadImage.image_source = '';
+    UploadImage.loader = false;
 
 
+    UploadImageApi.get(function(result){
 
+      UploadImage.imageArray = result;
+
+    }, function(err){
+      console.log("err", err)
+
+    });
 
     $scope.clear = function(){
       if (UploadImage.file) {
@@ -25,8 +33,6 @@ angular.module('imageProcessingApp')
           });
       }
     }
-
-
 
     $scope.setFile = function(element) {
 
@@ -60,10 +66,9 @@ angular.module('imageProcessingApp')
       UploadImage.file = '';
     }
 
-
     UploadImage.upload = function(){
 
-      console.log("inside upload()");
+      UploadImage.loader = true;
 
       var fd = new FormData();
 
@@ -71,26 +76,42 @@ angular.module('imageProcessingApp')
         fd.append('image_source',UploadImage.image_source );
 
 
-      var data = {
-        image_source : UploadImage.image_source,
-        file : UploadImage.file,
-        currentFile : UploadImage.currentFile
-       };
-
       UploadImageApi.post(fd,function(result){
 
-        console.log("inside post() :: ",result);
+
         UploadImage.imageArray.unshift(result);
         $scope.uploadImageForm.$setPristine();
         UploadImage.document = "";
         UploadImage.fileName = '';
         UploadImage.image_source = '';
         UploadImage.file = '';
+        UploadImage.loader = false;
 
       }, function(err){
         console.log("err", err)
 
       });
+
+    }
+
+    UploadImage.delete = function(index){
+
+      var promptFlag =  confirm("Do you want to delete this ?");
+
+      if(promptFlag){
+
+        UploadImage.loader = true;
+        var id = UploadImage.imageArray[index]._id;
+
+        UploadImageApi.delete({id : id},function(result){
+
+          UploadImage.imageArray.splice(index, 1);
+          UploadImage.loader = false;
+
+        });
+
+      }
+
 
     }
 

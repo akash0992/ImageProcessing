@@ -12,8 +12,18 @@ cloudinary.config(config.cloudinary);
  * upload images to cloud
  */
 
-exports.cloudinary = function (data, callback) {
+exports.cloudinaryUpload = function (data, callback) {
   cloudinary.uploader.upload(data && data.path, function (result) {
     return callback(result);
+  });
+};
+
+/**
+ * delete uploaded images from cloud
+ */
+
+exports.cloudinaryDelete = function (public_id, callback) {
+  cloudinary.uploader.destroy(public_id, function(result) {
+      return callback(result);
   });
 };

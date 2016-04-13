@@ -31,6 +31,56 @@
   margin-top: 1%;
 }
 
+.dist{
+  padding-top: 3%;
+}
+
+img.uploadImg{
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 200px;
+  max-height: 200px;
+}
+
+.bgcolor{
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+
+.thumbnail {
+  display: block;
+  padding: 4px;
+  margin-bottom: 0px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+.cen{
+  text-align: center;
+  display: inline-block;
+}
+
+#loader {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+  background: rgba(236, 240, 241,0.5);
+  font-weight: bolder;
+}
+
+#loaderSpan {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
 
 /*start*//*
 

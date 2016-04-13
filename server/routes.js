@@ -8,14 +8,14 @@ var errors = require('./components/errors');
 var path = require('path');
 
 
-var multer = require('multer');
-var upload = multer({dest : 'uploads/'});
+
+
 
 module.exports = function(app) {
 
   // Insert routes below
   app.use('/api/transforms', require('./api/transform'));
-  app.use('/api/uploads', upload.single('file'), require('./api/upload'));
+  app.use('/api/uploads', require('./api/upload'));
 
   app.use('/api/users', require('./api/user'));
 
