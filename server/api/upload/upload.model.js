@@ -9,7 +9,8 @@ var UploadSchema = new Schema({
     ref: 'user'
   },
   uploadUrl: String,
-  uploadObject: Object,
+  file: Object,
+  //uploadObject: Object,
   dateCreated:{type:String, default:Date.now}
 });
 

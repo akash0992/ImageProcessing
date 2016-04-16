@@ -43,7 +43,7 @@ module.exports = function(app) {
       db: 'image-processing'
     })
   }));
-  
+
   if ('production' === env) {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));
@@ -58,5 +58,8 @@ module.exports = function(app) {
     app.set('appPath', path.join(config.root, 'client'));
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
+
+    app.use("/static-image",express.static(path.join(config.root, 'uploadPicture')));
+    app.use("/static-image",express.static(path.join(config.root, 'transformPicture')));
   }
 };

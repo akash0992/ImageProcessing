@@ -36,17 +36,14 @@ exports.create = function(userID, file, callback) {
   var data = {};
   data.userID = userID;
 
-  Cloudinary.cloudinaryUpload(file, function (cloudData) {
+  if(file){
+    data.uploadUrl = '/static-image/'+file.filename;
+    data.file = file;
+  }
 
-    data.uploadUrl = cloudData.secure_url;
-    data.uploadObject = cloudData;
+  Upload.create(data, function(err, upload) {
 
-    Upload.create(data, function(err, upload) {
-
-      // fs.unlink(file.path);
-      callback(err, upload);
-
-    });
+    callback(err, upload);
 
   });
 
@@ -82,26 +79,19 @@ exports.destroy = function(id, callback) {
 
     }else{
 
-      Cloudinary.cloudinaryDelete(upload.uploadObject.public_id, function (cloudData) {
+      fs.unlink(upload.file.path);
+      upload.remove(function(err) {
 
-        if(cloudData){
+        if(err) {
 
-          upload.remove(function(err) {
-
-            if(err) {
-
-              callback(err, null);
-
-            }else{
-
-              callback(null,upload);
-
-            }
-          });
-        }else{
           callback(err, null);
+
+        }else{
+
+          callback(null,upload);
+
         }
-      })
+      });
     }
   });
 };
