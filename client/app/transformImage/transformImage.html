@@ -1,3 +1,69 @@
-<div class="col-md-12" ui-view="viewB" ng-controller="TransformImageCtrl as TransformImage">
-This is the transformImage view.
+<div class="col-md-12" ui-view="viewB" ng-controller="TransformImageCtrl as TransformImage" ng-show="TransformImage.display" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+
+  <div class = "row">
+    <div class = "col-sm-24 col-md-12 clearfix">
+      <div class = "thumbnail" tooltip="Show Full Size Image">
+        <a target="_blank" href="{{TransformImage.uploaded.uploadUrl}}">
+          <img src = '{{TransformImage.uploaded.uploadUrl}}' alt = '{{TransformImage.uploaded.uploadObject.original_filename}}' class=" uploadImg">
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <div ng-show="TransformImage.display2">
+
+  <div class="ctrlWidth dist">
+    <input type="number" class="form-control ctrlWidth" data-ng-model="TransformImage.obj.wVal" ng-keyup="TransformImage.set(TransformImage.obj.wVal,null,null,null)" placeholder="Width (max 1000px)" >
+  </div>
+
+  <div class="ctrlWidth">
+    <input type="number" class="form-control ctrlWidth" data-ng-model="TransformImage.obj.hVal" ng-keyup="TransformImage.set(null,TransformImage.obj.hVal,null,null)" placeholder="Height (max 1000px)" >
+  </div>
+
+  <div class="ctrlWidth">
+    <input type="number" class="form-control ctrlWidth" data-ng-model="TransformImage.obj.qVal" ng-keyup="TransformImage.set(null,null,TransformImage.obj.qVal,null)" placeholder="Quality (max 100%)" >
+  </div>
+
+  <div class="ctrlWidth clearfix">
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Change Format
+        <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li class="dropdown-header">Available Formats </li>
+        <li ng-click=" TransformImage.set(null,null,null,'jpg') " ><a href="#">JPG</a></li> <!--ng-hide=" TransformImage.obj.ext == 'jpg' || TransformImage.obj.ext == 'JPG' "-->
+        <li ng-click=" TransformImage.set(null,null,null,'png') " ><a href="#">PNG</a></li>
+        <li ng-click=" TransformImage.set(null,null,null,'gif') " ><a href="#">GIF</a></li>
+      </ul>
+      <div class="ctrlWidth">
+        <input type="text" class="form-control ctrlWidth" data-ng-model="TransformImage.obj.qText" readonly>
+      </div>
+    </div>
+  </div>
+
+  <input type="text" class="form-control image-preview-filename" disabled="disabled" data-ng-model="TransformImage.obj.url">
+
+  <div class="dist">
+    <button type="button" class="btn btn-primary pull-left" ng-click="TransformImage.done()">Done</button>
+    <button type="button" class="btn btn-success pull-right" ng-click="TransformImage.transform()">Transform</button>
+  </div>
+
+  </div>
+
+  <div class="dist" ng-show="TransformImage.displayPreview">
+  <div class = "row dist">
+    <div class = "col-sm-24 col-md-12 clearfix">
+      <div class = "thumbnail" tooltip="Show Full Size Image">
+        <a target="_blank" href="{{TransformImage.url+TransformImage.urlText}}">
+          <img src = '{{TransformImage.url+TransformImage.urlText}}' alt = '{{TransformImage.urlText}}' class=" uploadImg">
+        </a>
+      </div>
+    </div>
+  </div>
+    <div class="dist">
+      <button type="button" class="btn btn-danger pull-left" ng-click="TransformImage.discard()">Discard</button>
+      <button type="button" class="btn btn-info pull-right" ng-click="TransformImage.save()">Save</button>
+    </div>
+  </div>
+
 </div>

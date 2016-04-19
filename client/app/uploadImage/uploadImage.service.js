@@ -71,6 +71,10 @@ angular.module("imageProcessingApp")
         method: 'GET',
         isArray :true
         },
+        getUploadImage: {
+        method: 'GET',
+        isArray :false
+        },
 
         post:{
           method : 'POST',

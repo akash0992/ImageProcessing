@@ -60,6 +60,7 @@ module.exports = function(app) {
     app.use(errorHandler()); // Error handler - has to be last
 
     app.use("/static-image",express.static(path.join(config.root, 'uploadPicture')));
-    app.use("/static-image",express.static(path.join(config.root, 'transformPicture')));
+    app.use("/transform-image",express.static(path.join(config.root, 'transformPicture')));
+    app.use("/transforming-image",express.static(path.join(config.root, 'transformingPicture')));
   }
 };

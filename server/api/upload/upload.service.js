@@ -5,7 +5,7 @@
 var _ = require('lodash');
 var Upload = require('./upload.model');
 
-var Cloudinary = require('../../components/cloudinary/cloudinary');
+//var Cloudinary = require('../../components/cloudinary/cloudinary');
 var fs = require('fs');
 
 

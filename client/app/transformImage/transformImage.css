@@ -1,0 +1,15 @@
+.form-control.ctrlWidth {
+  width: 100%;
+  display: inline-block;
+}
+
+.ctrlWidth {
+  min-width: 30%;
+  display: inline-block;
+}
+
+
+.ctrlWidth.clearfix{
+  padding-top: 1%;
+  padding-bottom: 1%;
+}

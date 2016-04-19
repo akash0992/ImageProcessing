@@ -27,7 +27,7 @@
     </div>
 
     <!--Loader-->
-    <div ng-show="UploadImage.loader" id="loader" class="cen">
+    <div ng-show="UploadImage.loader || UploadImage.object.loader" id="loader" class="cen">
       <span id="loaderSpan"></span>
       <img src="../assets/images/processing%20(1).gif" alt="I'm Yeoman">
     </div>
@@ -43,7 +43,7 @@
 
       <div class = "caption">
         <p>
-          <a href = "#" class = "btn btn-primary pull-left" role = "button">
+          <a href = "#" class = "btn btn-primary pull-left" role = "button" ng-click="UploadImage.transform($index)">
             Transform
           </a>
 

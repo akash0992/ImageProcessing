@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('imageProcessingApp')
-  .controller('UploadImageCtrl', function ($scope,fileReader,UploadImageApi) {
+  .controller('UploadImageCtrl', function ($scope,fileReader,UploadImageApi,$rootScope) {
 
     var UploadImage = this;
     UploadImage.message = 'Hello';
@@ -10,7 +10,9 @@ angular.module('imageProcessingApp')
     UploadImage.currentFile = '';
     UploadImage.image_source = '';
     UploadImage.loader = false;
-
+    UploadImage.object = {};
+    UploadImage.object.loader = false;
+    UploadImage.object.id = '';
 
     UploadImageApi.get(function(result){
 
@@ -114,5 +116,22 @@ angular.module('imageProcessingApp')
 
 
     }
+
+    UploadImage.transform = function(index){
+
+      var id = UploadImage.imageArray[index]._id;
+      UploadImage.object.loader = true;
+      UploadImage.object.id = id;
+
+      $scope.$emit('transform', UploadImage.object);
+
+     // $rootScope.$broadcast('transform', UploadImage.object);
+
+    }
+
+
+    $rootScope.$on('transformDone', function(event, mass) {
+      UploadImage.object.loader = mass.loader;
+    });
 
   });
