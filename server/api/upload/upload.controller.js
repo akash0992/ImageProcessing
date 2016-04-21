@@ -4,6 +4,12 @@
 
 var UploadService = require('./upload.service');
 
+var TransformService = require('../transform/transform.service');
+
+var fs = require('fs');
+
+var server = require('../../app');
+
 // Get list of uploads
 exports.indexUpload = function(req, res) {
 
@@ -19,20 +25,108 @@ exports.indexUpload = function(req, res) {
   });
 };
 
+
 // Get a single upload
+exports.show = function(req, res) {
+
+console.log('params .... ',req.params);
+    var id = req.params.getUploadID;
+
+    UploadService.show(id, function (err, upload) {
+
+      if(err) { return handleError(res, err); }
+
+      if(!upload) { return res.status(404).send('Not Found'); }
+
+      var transformImage = [];
+      transformImage[0] = upload;
+
+      console.log('upload showwwwwwwwwwwwwwwww ..... ',upload);
+       return res.json(transformImage);
+
+    });
+
+};
+
+
+// Get a single upload transformed/untransformed
 exports.showUpload = function(req, res) {
 
-  var id = req.params.id;
+  if(req.query.format){
 
-  UploadService.show(id, function (err, upload) {
+    var criteria = {};
+    criteria.uploadID = req.params.id;
+    criteria.settings = {};
 
-    if(err) { return handleError(res, err); }
+    if(req.query.w){
+      criteria.settings.width = req.query.w;
+    }
+    if(req.query.h){
+      criteria.settings.height = req.query.h;
+    }
+    if(req.query.q){
+      criteria.settings.quality = req.query.q;
+    }
 
-    if(!upload) { return res.status(404).send('Not Found'); }
+    criteria.settings.ext = req.query.format;
 
-    return res.json(upload);
+    TransformService.show(criteria, function (err, transform) {
 
-  });
+      if(err) { return handleError(res, err); }
+
+     // console.log(' server .... ',server.address());
+
+      //return res.json(transform);
+
+      //console.log('transform[0] ... ',transform[0]);
+
+      var url = transform[0].file.path;
+
+      return res.sendFile(url);
+
+    });
+
+  }else{
+
+    var id = req.params.id;
+
+    UploadService.show(id, function (err, upload) {
+
+      if(err) { return handleError(res, err); }
+
+      if(!upload) { return res.status(404).send('Not Found'); }
+
+      var transformImage = [];
+          transformImage[0] = upload;
+
+      console.log('upload .. showupload ..... ',upload);
+      /*
+      return res.json(transformImage);*/
+
+
+      var url = transformImage[0].file.path;
+
+      return res.sendFile(url);
+    });
+
+  }
+
+};
+
+// Get a single upload all transformations
+exports.showAllUpload = function(req, res) {
+
+    var criteria = {};
+    criteria.uploadID = req.params.id;
+
+    TransformService.index(criteria, function (err, transform) {
+
+      if(err) { return handleError(res, err); }
+
+      return res.json(transform);
+
+    });
+
 };
 
 // Creates a new upload in the DB.

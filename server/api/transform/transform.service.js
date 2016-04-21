@@ -9,9 +9,38 @@ var _ = require('lodash');
 var Transform = require('./transform.model');
 var Upload = require('../upload/upload.model');
 var fs = require('fs');
-
+//var Transform_Controller = require('./transform.controller');
 var easyImage = require('easyimage');
 //var uploadImageService = require('../../../client/app/uploadImage/uploadImage.service');
+
+
+var addFetchUrl = function(transform,callback){
+
+  transform.fetchUrl = 'http://www.akashyadav.com:9000/api/transforms/'+transform._id;
+
+  if(transform._id) { delete transform._id; }
+  Transform.findById(transform._id, function (err, upload) {
+    if(err){
+      callback(err,null);
+    }else{
+      var updated = _.merge(upload, transform);
+      updated.save(function (err) {
+        if (err) { callback(err,null)
+        }else{
+
+          var transformImage = [];
+              transformImage[0] = upload;
+
+          callback(err,transformImage);
+
+        }
+      });
+    }
+
+  });
+
+
+}
 
 
 // Get list of transform(indexTransform/index)
@@ -34,16 +63,16 @@ exports.show = function(criteria, callback) {
       callback(err, null);
     }
     else if (transform.length === 0) {
-      console.log("here processing happens ..... ");
 
       var uploadID = criteria.uploadID;
       var w = criteria.settings.width;
       var h = criteria.settings.height;
       var q = criteria.settings.quality;
       var format = criteria.settings.ext;
-      var destination = '/home/akash/WebstormProjects/ImageProcessing/transformingPicture/';
+      var destination = '/home/akash/WebstormProjects/ImageProcessing/transformPicture/';
       var options = {};
       var uploadedImage = [];
+      var transformImage = [];
 
       var url = '';
       var index = null;
@@ -51,12 +80,68 @@ exports.show = function(criteria, callback) {
       var fileName = '';
       var source = '';
 
+      var criteria_Object = {};
+          criteria_Object.uploadID = uploadID;
+          criteria_Object.settings = {};
+      var resize = function(options){
+        easyImage.resize(options).then(function(result) {
+
+          if (!result) callback({err : 'err in processing'}, null);
+
+          criteria_Object.file = result;
+          criteria_Object.transformUrl = '/transform-image/';
+
+          url = result.path;
+          index = url.lastIndexOf('/');
+          fileName = url.substring(index+1,url.length);
+
+          criteria_Object.transformUrl = criteria_Object.transformUrl + fileName;
+
+          Transform.create(criteria_Object, function(err, transform) {
+
+            addFetchUrl(transform,function(err,transform){
+              if(err) callback(err,null);
+              else{
+                callback(null,transform);
+              }
+            });
+
+          });
+        });
+      }
+
+      var convert = function(options){
+        easyImage.convert(options).then(function(result) {
+
+          if (!result) callback({err : 'err in processing'}, null);
+
+          criteria_Object.file = result;
+          criteria_Object.transformUrl = '/transform-image/';
+
+          url = result.path;
+          index = url.lastIndexOf('/');
+          fileName = url.substring(index+1,url.length);
+
+          criteria_Object.transformUrl = criteria_Object.transformUrl + fileName;
+
+          Transform.create(criteria_Object, function(err, transform) {
+
+            addFetchUrl(transform,function(err,transform){
+              if(err) callback(err,null);
+              else{
+                callback(null,transform);
+              }
+            });
+          });
+        });
+      }
+
       Upload.findById(uploadID, function (err, upload) {
         if (err) {
           callback(err, null);
-        }else {
+        }
+        else {
           uploadedImage = upload;
-          console.log("upload Image(url) in transform service ....",uploadedImage);
 
           url = uploadedImage.file.path;
           index = url.lastIndexOf('/');
@@ -65,51 +150,66 @@ exports.show = function(criteria, callback) {
 
           source = uploadedImage.file.path;
 
-          console.log('file name ..... ',fileName);
-          console.log('file source ..... ',source);
-
-
-
           if(w != undefined){
             options.width = w;
+            criteria_Object.settings.width = w;
           }
           if(h != undefined){
             options.height = h;
+            criteria_Object.settings.height = h;
           }
           if(q != undefined){
             options.quality = q;
+            criteria_Object.settings.quality = q;
           }
 
+          criteria_Object.settings.ext = format;
+
           options.src = source;
-          options.dst = destination+fileName+'.'+format;
+          options.dst = destination+Date.now() + "_" + Math.ceil(Math.random()*9999) + "_" +fileName+'.'+format;
 
-          console.log('outside source ..... ',options.src);
-          console.log('outside destination ..... ',options.dst);
+          if(options.width){
 
-          console.log('outside easyImage.convert');
+            resize(options);
 
-          easyImage.convert(options).then(function(result) {
+          }
+          else if(options.height){
 
-            console.log('inside easyImage.convert');
+            easyImage.info(options.src).then(
 
-            if (!result) callback({err : 'err in processing'}, null);
+              function(file) {
 
+                options.width = file.width;
 
-            console.log('Image format Converted .... ',result);
+                resize(options);
 
-            callback(null, result);
-
-          });
-
-
-
-
+              }, function (err) {
+                console.log(err);
+              }
+            );
+          }
+          else{
+            convert(options);
+          }
         }
       });
+    }
+    else{
+      callback(null, transform);
+    }
+  });
+}
 
 
+// Get a single transform(showTransformed/find) uploadID
+exports.showTransformed = function(criteria, callback) {
 
-    }else{
+  Transform.find(criteria, function (err, transform) {
+
+    if (err) {
+      callback(err, null);
+    }
+    else{
       callback(null, transform);
     }
   });
@@ -117,72 +217,122 @@ exports.show = function(criteria, callback) {
 
 
 // Creates a new transform in the DB.(createTransform/create)
-    exports.create = function(criteria, file, callback) {
+exports.create = function(criteria, file, callback) {
 
 
-      if(file){
-        criteria.transformUrl = '/transform-image/'+file.filename;
-        criteria.file = file;
-      }
+  if(file){
+    criteria.transformUrl = '/transform-image/'+file.filename;
+    criteria.file = file;
+  }
 
-      Transform.create(criteria, function(err, transform) {
+  Transform.create(criteria, function(err, transform) {
 
-        callback(err, transform);
+    callback(err, transform);
 
-      });
+  });
 
-    };
+};
 
 // Updates an existing transform in the DB.(updateTransform/update)
-    exports.update = function(req, callback) {
+exports.update = function(req, callback) {
 
-      if(req.body._id) { delete req.body._id; }
+  if(req.body._id) { delete req.body._id; }
 
-      Transform.findById(req.params.id, function (err, transform) {
-        if(err){
-          callback(err);
+  Transform.findById(req.params.id, function (err, transform) {
+    if(err){
+      callback(err);
+    }else{
+      var updated = _.merge(transform, req.body);
+      updated.save(function (err) {
+        if (err) { callback(err)
         }else{
-          var updated = _.merge(transform, req.body);
-          updated.save(function (err) {
-            if (err) { callback(err)
-            }else{
-              callback(transform);
-            }
-          });
+          callback(transform);
         }
-
       });
-    };
+    }
+
+  });
+};
 
 // Deletes a transform from the DB.(destroyTransform/destroy)
-    exports.destroy = function(id, callback) {
+exports.destroy = function(id, callback) {
 
-      Transform.findById(id, function (err, transform) {
+  Transform.findById(id, function (err, transform) {
+
+    if(err) {
+
+      callback(err);
+
+    }else{
+
+      fs.unlink(transform.file.path);
+      transform.remove(function(err) {
 
         if(err) {
 
-          callback(err);
+          callback(err, null);
 
         }else{
 
-          fs.unlink(transform.file.path);
-          transform.remove(function(err) {
+          callback(null,transform);
 
-            if(err) {
-
-              callback(err, null);
-
-            }else{
-
-              callback(null,transform);
-
-            }
-          });
         }
       });
-    };
-
-
-    function handleError(res, err) {
-      return res.status(500).send(err);
     }
+  });
+};
+
+// Deletes a transform from the DB.(destroyTransform/destroy) destroyTransformed uploadID
+exports.destroyTransformed = function(id, callback) {
+
+  var criteria = {};
+  criteria.uploadID = id;
+
+
+  Transform.find(criteria, function (err, transformed) {
+
+    if(err) {
+      callback(err,null);
+    }
+    else if(transformed && transformed.length === 0){
+      callback(null,transformed);
+    }
+    else{
+
+      var data = [];
+
+      transformed.forEach(function(item,index){
+
+        Transform.findById(transformed[index]._id, function (err, transform) {
+
+          if(err) {
+
+            callback(err,null);
+
+          }else{
+
+            fs.unlink(transform.file.path);
+            transform.remove(function(err) {
+
+              if(err) {
+                callback(err);
+              }else{
+                if(transformed.length-1 == index){
+                  callback(null,transform);
+                }
+               }
+            });
+          }
+        });
+
+      });
+
+    }
+  });
+};
+
+
+
+function handleError(res, err) {
+  return res.status(500).send(err);
+}

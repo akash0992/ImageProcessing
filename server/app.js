@@ -33,4 +33,4 @@ server.listen(config.port, config.ip, function () {
 });
 
 // Expose app
-module.exports = app;
+module.exports.app = app;

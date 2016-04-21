@@ -39,7 +39,13 @@
 }
 
 .centerAlgin2{
-  text-align: center;
+  text-align: left;
+  padding-right: 0%;
+
+}
+
+.centerAlgin3{
+  text-align: right;
   padding-right: 0%;
 
 }

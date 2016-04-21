@@ -63,17 +63,35 @@
 angular.module("imageProcessingApp")
   .factory('UploadImageApi', function ($resource) {
 
-    return $resource('/api/uploads/:id/:controller', {
+    return $resource('/api/uploads/:id/:getUploadID/:getUpload/:controller', {
         id: '@_id',controller: '@controller'
       },
       {
         get: {
-        method: 'GET',
-        isArray :true
+          method: 'GET',
+          isArray :true
         },
+
+        getUpload: {
+          method: 'GET',
+          controller: 'getUpload',
+          isArray :true
+        },
+
+        getAll: {
+          method: 'GET',
+          controller: 'getAllTransform',
+          isArray :true
+        },
+
         getUploadImage: {
-        method: 'GET',
-        isArray :false
+          method: 'GET',
+          isArray :false
+        },
+
+        getTransformedImage: {
+          method: 'GET',
+          isArray :false
         },
 
         post:{

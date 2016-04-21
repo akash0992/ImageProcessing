@@ -11,8 +11,12 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
-router.get('/', auth.isAuthenticated(), controller.indexUpload);
+
+router.get('/getUpload/:getUploadID', controller.show);
+router.get('/getAllTransform/:id', controller.showAllUpload);
 router.get('/:id', controller.showUpload);
+router.get('/', auth.isAuthenticated(), controller.indexUpload);
+
 router.post('/', auth.isAuthenticated(), function(req,res,next){
   if(!req.file){
     res.send({ result: 0, err : 'file type wrong'});

@@ -129,7 +129,6 @@ angular.module('imageProcessingApp')
 
     }
 
-
     $rootScope.$on('transformDone', function(event, mass) {
       UploadImage.object.loader = mass.loader;
     });

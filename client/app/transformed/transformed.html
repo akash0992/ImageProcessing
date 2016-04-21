@@ -1,0 +1,36 @@
+<div class="col-md-12" ng-controller="TransformedCtrl as Transformed" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+
+  <div class = "col-sm-12 col-md-6 clearfix dist" ng-show="!Transformed.transformArray.length > 0">
+    <p>
+      No Data To Show for Transformations !!!
+    </p>
+  </div>
+
+  <div class = "col-sm-12 col-md-6 clearfix dist" ng-repeat="Transform in Transformed.transformArray">
+    <div class = "thumbnail">
+      <a target="_blank" href="{{Transform.transformUrl}}">
+      <img src = '{{Transform.transformUrl}}' alt = '{{Transform.file.name}}' class=" uploadImg hoverImg" ng-click="Transformed.showTransform($index)">
+    </a>
+    </div>
+
+    <div class = "caption">
+      <!--<p>
+        <input type="text" class="form-control image-preview-filename" disabled="disabled" value="{{Transform.fetchUrl}}">
+      </p>-->
+
+      <p>
+        <a href = "#" class = "btn btn-danger pull-right" role =" button" ng-click="Transformed.discard($index)">
+          Delete
+        </a>
+      </p>
+
+    </div>
+  </div>
+
+</div>
+
+
+</div>
+
+
+

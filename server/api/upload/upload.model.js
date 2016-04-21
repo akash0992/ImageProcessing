@@ -10,6 +10,7 @@ var UploadSchema = new Schema({
   },
   uploadUrl: String,
   file: Object,
+  fetchUrl: String,
   dateCreated:{type:String, default:Date.now}
 });
 

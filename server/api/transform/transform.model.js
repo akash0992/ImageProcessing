@@ -4,10 +4,10 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var TransformSchema = new Schema({
-  userID:{
+  /*userID:{
     type: mongoose.Schema.Types.ObjectId, //Reference of owner of image
     ref: 'user'
-  },
+  },*/
   uploadID: String,
   transformUrl: String,
   settings:{
@@ -17,6 +17,7 @@ var TransformSchema = new Schema({
     ext:{type:String}  //ext = extension
   },
   file: Object,
+  fetchUrl: String,
   dateCreated:{type:String, default:Date.now}
 });
 

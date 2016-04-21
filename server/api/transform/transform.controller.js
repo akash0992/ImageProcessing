@@ -24,14 +24,42 @@ exports.showTransform = function(req, res) {
   var criteria = {};
   criteria.uploadID = req.params.id;
   criteria.settings = {};
-  criteria.settings.width = req.query.w;
-  criteria.settings.height = req.query.h;
-  criteria.settings.quality = req.query.q;
+
+
+
+  if(req.query.w){
+    criteria.settings.width = req.query.w;
+  }
+  if(req.query.h){
+    criteria.settings.height = req.query.h;
+  }
+  if(req.query.q){
+    criteria.settings.quality = req.query.q;
+  }
+
   criteria.settings.ext = req.query.format;
 
   console.log("criteria ..... ",criteria);
 
   TransformService.show(criteria, function (err, transform) {
+
+    if(err) { return handleError(res, err); }
+
+    return res.json(transform);
+
+  });
+};
+
+
+
+// Get a single transform(showTransformed) uploadID
+exports.showTransformed = function(req, res) {
+
+  console.log('..... req ..... ',req.params,req.query);
+  var criteria = {};
+  criteria.uploadID = req.params.uploadID;
+
+  TransformService.showTransformed(criteria, function (err, transform) {
 
     if(err) { return handleError(res, err); }
 
@@ -87,6 +115,24 @@ exports.destroyTransform = function(req, res) {
   var id = req.params.id;
 
   TransformService.destroy(id, function (err, transform) {
+
+    if(err) { return handleError(res, err); }
+
+    if(!transform) {
+      return res.status(404).send('Not Found');
+    }else{
+      return res.status(204).send('No Content');
+    }
+  });
+};
+
+
+// Deletes a transform from the DB. uploadID///////////////////////////////
+  exports.destroyTransformed = function(req, res) {
+
+  var id = req.params.uploadID;
+
+  TransformService.destroyTransformed(id, function (err, transform) {
 
     if(err) { return handleError(res, err); }
 

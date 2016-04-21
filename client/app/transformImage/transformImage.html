@@ -54,15 +54,15 @@
   <div class = "row dist">
     <div class = "col-sm-24 col-md-12 clearfix">
       <div class = "thumbnail" tooltip="Show Full Size Image">
-        <a target="_blank" href="{{TransformImage.url+TransformImage.urlText}}">
-          <img src = '{{TransformImage.url+TransformImage.urlText}}' alt = '{{TransformImage.urlText}}' class=" uploadImg">
+        <a target="_blank" ng-href="{{TransformImage.obj.url}}">
+          <img ng-src = '{{TransformImage.obj.url}}' class=" uploadImg">
         </a>
       </div>
     </div>
   </div>
     <div class="dist">
       <button type="button" class="btn btn-danger pull-left" ng-click="TransformImage.discard()">Discard</button>
-      <button type="button" class="btn btn-info pull-right" ng-click="TransformImage.save()">Save</button>
+      <button type="button" class="btn btn-info pull-right" ng-click="TransformImage.save()">Perfectly Fine</button>
     </div>
   </div>
 

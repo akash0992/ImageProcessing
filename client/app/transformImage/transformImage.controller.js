@@ -10,6 +10,10 @@ angular.module('imageProcessingApp')
     TransformImage.object.id = '';
     TransformImage.object.loader = true;
 
+
+    TransformImage.objDelete = {};
+    TransformImage.objDelete.id = '';
+
     TransformImage.uploaded = {};
     TransformImage.transformedUpload = {};
 
@@ -21,14 +25,15 @@ angular.module('imageProcessingApp')
     TransformImage.displayPreview = false;
 
 
-    TransformImage.url = '/transforming-image/';
-    TransformImage.urlText = '';
+    TransformImage.url = '';
+
+    TransformImage.deleteID = '';
 
     TransformImage.obj = {};
     TransformImage.obj.extSelected = '';
     TransformImage.obj.ext = '';
     TransformImage.obj.url = '';
-    TransformImage.obj.urlStart = 'http://www.akashyadav.com:9000/api/transforms/';
+    TransformImage.obj.urlStart = 'http://www.akashyadav.com:9000/api/uploads/';
     TransformImage.obj.imageID = '';
     TransformImage.obj.w = '&w=';
     TransformImage.obj.wVal = null;
@@ -41,6 +46,7 @@ angular.module('imageProcessingApp')
     TransformImage.obj.qText = 'Selected Format :: ';
     TransformImage.obj.qTextVal = 'Selected Format :: ';
 
+    TransformImage.img = '';
 
     // save initial values
     TransformImage.obj.init = function() {
@@ -65,11 +71,13 @@ angular.module('imageProcessingApp')
 
     TransformImage.TransformUploadImage  = function(mass){
 
+      console.log("mass .....",mass);
+
       TransformImage.obj.reset();
 
       TransformImage.object.id = mass.id;
 
-      UploadImageApi.getUploadImage({id : TransformImage.object.id},function(result){
+      UploadImageApi.getUpload({getUploadID : TransformImage.object.id},function(result){
 
         TransformImage.uploaded = result;
 
@@ -87,13 +95,13 @@ angular.module('imageProcessingApp')
 
         TransformImage.obj.url = TransformImage.obj.url+TransformImage.obj.format+TransformImage.obj.formatVal;
 
-        if(TransformImage.obj.wVal != null || TransformImage.obj.wVal != undefined){
+        if(TransformImage.obj.wVal){
           TransformImage.obj.url = TransformImage.obj.url+TransformImage.obj.w+TransformImage.obj.wVal;
         }
-        if(TransformImage.obj.hVal != null || TransformImage.obj.hVal != undefined){
+        if(TransformImage.obj.hVal){
           TransformImage.obj.url = TransformImage.obj.url+TransformImage.obj.h+TransformImage.obj.hVal;
         }
-        if(TransformImage.obj.qVal != null || TransformImage.obj.qVal != undefined){
+        if(TransformImage.obj.qVal){
           TransformImage.obj.url = TransformImage.obj.url+TransformImage.obj.q+TransformImage.obj.qVal;
         }
 
@@ -101,7 +109,7 @@ angular.module('imageProcessingApp')
         TransformImage.display2 = true;
 
       }, function(err){
-        console.log("err", err)
+        console.log("err", err);
       });
 
     }
@@ -123,7 +131,7 @@ angular.module('imageProcessingApp')
 
     TransformImage.set = function(w,h,q,f){
 
-      if(w != undefined && w != null || isNaN(w)){
+      if(w || isNaN(w)){
         w = Math.abs(w);
         if(w < 1001){
           TransformImage.obj.wVal = w || 0;
@@ -135,7 +143,7 @@ angular.module('imageProcessingApp')
       }
 
 
-      if(h != undefined && h != null || isNaN(h)){
+      if(h || isNaN(h)){
         h = Math.abs(h);
         if(h < 1001){
           TransformImage.obj.hVal = h || 0;
@@ -147,7 +155,7 @@ angular.module('imageProcessingApp')
       }
 
 
-      if(q != undefined && q != null || isNaN(q)){
+      if(q || isNaN(q)){
         q = Math.abs(q);
         if(q < 101){
           TransformImage.obj.qVal = q || 0;
@@ -159,7 +167,7 @@ angular.module('imageProcessingApp')
       }
 
 
-      if(f != undefined && f != null) {
+      if(f) {
         TransformImage.obj.formatVal = f || TransformImage.obj.formatVal;
         TransformImage.obj.qText = TransformImage.obj.qTextVal+TransformImage.obj.formatVal;
       }
@@ -170,13 +178,13 @@ angular.module('imageProcessingApp')
 
       TransformImage.obj.url = TransformImage.obj.url+TransformImage.obj.format+TransformImage.obj.formatVal;
 
-      if(TransformImage.obj.wVal != null || TransformImage.obj.wVal != undefined){
+      if(TransformImage.obj.wVal){
         TransformImage.obj.url = TransformImage.obj.url+TransformImage.obj.w+TransformImage.obj.wVal;
       }
-      if(TransformImage.obj.hVal != null || TransformImage.obj.hVal != undefined){
+      if(TransformImage.obj.hVal){
         TransformImage.obj.url = TransformImage.obj.url+TransformImage.obj.h+TransformImage.obj.hVal;
       }
-      if(TransformImage.obj.qVal != null || TransformImage.obj.qVal != undefined){
+      if(TransformImage.obj.qVal){
         TransformImage.obj.url = TransformImage.obj.url+TransformImage.obj.q+TransformImage.obj.qVal;
       }
 
@@ -189,29 +197,30 @@ angular.module('imageProcessingApp')
       transObj.id = TransformImage.object.id;
       transObj.format = TransformImage.obj.formatVal;
 
-      if(TransformImage.obj.hVal != null || TransformImage.obj.hVal != undefined){
+      if(TransformImage.obj.hVal){
         transObj.h = TransformImage.obj.hVal;
       }
-      if(TransformImage.obj.qVal != null || TransformImage.obj.qVal != undefined){
+      if(TransformImage.obj.qVal){
         transObj.q = TransformImage.obj.qVal;
       }
-      if(TransformImage.obj.wVal != null || TransformImage.obj.wVal != undefined){
+      if(TransformImage.obj.wVal) {
         transObj.w = TransformImage.obj.wVal;
       }
 
-      TransformImageApi.get(transObj,function(result){
+      UploadImageApi.getTransformedImage(transObj,function(img){
 
+
+
+/*
         TransformImage.transformedUpload = result;
 
-        var url = TransformImage.transformedUpload.path;
-        var index = url.lastIndexOf('/');
-        var fileName = url.substring(index+1,url.length);
+        TransformImage.url = result.transformUrl;
 
-        TransformImage.urlText = fileName;
+        TransformImage.deleteID = result._id;
+*/
 
         TransformImage.display2 = false;
         TransformImage.displayPreview = true;
-        console.log('TransformImage.transformedUpload .... ',TransformImage.transformedUpload);
 
       }, function(err){
         console.log("err", err)
@@ -226,11 +235,24 @@ angular.module('imageProcessingApp')
 
     }
 
-    TransformImage.discard = function(){
-      TransformImage.display2 = true;
-      TransformImage.displayPreview = false;
-      TransformImage.TransformUploadImage(TransformImage.mass);
-    }
+    TransformImage.discard = function() {
 
+
+      var promptFlag = confirm("Do you want to Discard this ?");
+
+      if (promptFlag) {
+
+        TransformImageApi.delete({id: TransformImage.deleteID}, function (result) {
+
+          TransformImage.display2 = true;
+          TransformImage.displayPreview = false;
+          TransformImage.TransformUploadImage(TransformImage.mass);
+
+        });
+
+
+      }
+
+    }
 
   });

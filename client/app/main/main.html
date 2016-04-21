@@ -2,7 +2,7 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-    <h1>Image Processing is Never been So easy </h1>
+    <h1>Image Processing</h1>
     <p class="lead">Give it a try</p>
   </div>
 </header>
@@ -14,8 +14,14 @@
       <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6 centerAlgin" ng-repeat="thing in Main.awesomeThings">
         <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}</a></li>
       </ul>
-      <ul class="nav nav-tabs nav-stacked col-md-12 col-lg-12 col-sm-12 centerAlgin2" ng-if="Main.isLoggedIn()">
-        <li><a ui-sref="processing.c1" tooltip="Start Processing"><marquee behavior="alternate" width="20%"><span style="font-weight: bolder">Begin Processing</span></marquee></a></li>
+      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6 centerAlgin2" ng-if="Main.isLoggedIn()">
+        <li><a ui-sref="processing.c1" tooltip="Start Processing"><marquee behavior="alternate" width="70%"><span style="font-weight: bolder">Begin Processing</span></marquee></a></li>
+      </ul>
+      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6 centerAlgin" ng-if="Main.isLoggedIn()">
+        <li><a ui-sref="processing.c2" tooltip="Processed Data"><marquee behavior="alternate" width="70%"><span style="font-weight: bolder">Processed Data</span></marquee></a></li>
+      </ul>
+      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6 centerAlgin3" ng-if="Main.isLoggedIn()">
+        <li><a ui-sref="processing.c3" tooltip="Statistics"><marquee behavior="alternate" width="60%"><span style="font-weight: bolder">Statistics</span></marquee></a></li>
       </ul>
     </div>
   </div>

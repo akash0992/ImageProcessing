@@ -1,0 +1,36 @@
+<div class="col-md-12" ng-controller="UploadedCtrl as Uploaded" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+
+
+
+  <div class = "col-sm-12 col-md-6 clearfix dist" ng-show="!Uploaded.imageArray.length > 0">
+  <p>
+    No Data To Show !!!
+  </p>
+  </div>
+
+    <div class = "col-sm-12 col-md-6 clearfix dist" ng-repeat="upload in Uploaded.imageArray">
+      <div class = "thumbnail">
+        <img src = '{{upload.uploadUrl}}' alt = '{{upload.uploadObject.original_filename}}' class=" uploadImg hoverImg" ng-click="Uploaded.showTransform($index)">
+      </div>
+
+      <div class = "caption">
+        <p>
+          <input type="text" class="form-control image-preview-filename" disabled="disabled" value="{{upload.fetchUrl}}">
+        </p>
+
+        <p>
+          <a href = "#" class = "btn btn-danger pull-right" role =" button" ng-click="Uploaded.delete($index)">
+            Delete
+          </a>
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+

@@ -5,13 +5,18 @@
 angular.module("imageProcessingApp")
   .factory('TransformImageApi', function ($resource) {
 
-    return $resource('/api/transforms/:id/:criteria/:controller', {
-        id: '@_id',criteria: '@_criteria' ,controller: '@controller'
+    return $resource('/api/transforms/:id/:uploadID/:criteria/:controller', {
+        id: '@_id',uploadID: '@_uploadID' ,criteria: '@_criteria' ,controller: '@controller'
       },
       {
         get: {
           method: 'GET',
-          isArray :false
+          isArray :true
+         },
+
+        getAll: {
+          method: 'GET',
+          isArray :true
          },
 
         post:{

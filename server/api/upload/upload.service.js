@@ -4,8 +4,8 @@
 
 var _ = require('lodash');
 var Upload = require('./upload.model');
-
-//var Cloudinary = require('../../components/cloudinary/cloudinary');
+var Transform = require('../transform/transform.model');
+var TransformService = require('../transform/transform.service');
 var fs = require('fs');
 
 
@@ -41,9 +41,25 @@ exports.create = function(userID, file, callback) {
     data.file = file;
   }
 
-  Upload.create(data, function(err, upload) {
+  Upload.create(data, function(err, uploaded) {
 
-    callback(err, upload);
+    uploaded.fetchUrl = 'http://www.akashyadav.com:9000/api/uploads/'+uploaded._id;
+
+    if(uploaded._id) { delete uploaded._id; }
+    Upload.findById(uploaded._id, function (err, upload) {
+      if(err){
+        callback(err,null);
+      }else{
+        var updated = _.merge(upload, uploaded);
+        updated.save(function (err) {
+          if (err) { callback(err,null)
+          }else{
+            callback(err,upload);
+          }
+        });
+      }
+
+    });
 
   });
 
@@ -88,8 +104,13 @@ exports.destroy = function(id, callback) {
 
         }else{
 
-          callback(null,upload);
+          TransformService.destroyTransformed(id, function (err, transform) {
 
+            if(err) { callback(err,null); }
+            else{
+              callback(null,transform);
+            }
+          });
         }
       });
     }
