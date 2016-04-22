@@ -13,6 +13,7 @@ var router = express.Router();
 
 
 router.get('/getUploaded/:getUploadID', controller.show);
+router.get('/getTransformed/:id', controller.showTrans);
 router.get('/getAllTransform/:id', controller.showAllUpload);
 router.get('/:id', controller.showUpload);
 router.get('/', auth.isAuthenticated(), controller.indexUpload);

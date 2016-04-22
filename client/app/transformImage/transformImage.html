@@ -1,4 +1,9 @@
-<div class="col-md-12" ui-view="viewB" ng-controller="TransformImageCtrl as TransformImage" ng-show="TransformImage.display" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+<div class="col-md-12 custPad" ui-view="viewB" ng-controller="TransformImageCtrl as TransformImage" ng-show="TransformImage.display" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+  <header class="hero-unit" id="banner">
+    <div class="container containerCust">
+      <h1>Transform Image</h1>
+    </div>
+  </header>
 
   <div class = "row">
     <div class = "col-sm-24 col-md-12 clearfix">
@@ -54,14 +59,14 @@
   <div class = "row dist">
     <div class = "col-sm-24 col-md-12 clearfix">
       <div class = "thumbnail" tooltip="Show Full Size Image">
-        <a target="_blank" ng-href="{{TransformImage.obj.url}}">
-          <img ng-src = '{{TransformImage.obj.url}}' class=" uploadImg22">
+        <a target="_blank" ng-href="{{TransformImage.url}}">
+          <img ng-src = '{{TransformImage.url}}' class=" uploadImg22">
         </a>
       </div>
     </div>
   </div>
     <div class="dist">
-      <!--<button type="button" class="btn btn-danger pull-left" ng-click="TransformImage.discard()">Discard</button>-->
+      <button type="button" class="btn btn-danger pull-left" ng-click="TransformImage.discard()">Discard</button>
       <button type="button" class="btn btn-info pull-right" ng-click="TransformImage.save()">Perfectly Fine</button>
     </div>
   </div>

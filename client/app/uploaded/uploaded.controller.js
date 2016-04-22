@@ -14,6 +14,13 @@ angular.module('imageProcessingApp')
 
       Uploaded.imageArray = result;
 
+      if(Uploaded.imageArray.length > 0){
+        var id = Uploaded.imageArray[0]._id;
+        Uploaded.object_id = id;
+        Uploaded.flag = false;
+        $scope.$emit('showTransform', Uploaded.object_id);
+      }
+
     }, function(err){
       console.log("err", err)
 

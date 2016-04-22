@@ -51,6 +51,82 @@ exports.show = function(req, res) {
 };
 
 // Get a single upload transformed/untransformed
+exports.showTrans = function(req, res) {
+
+  console.log('exports.showTrans upload.controller ..... ',req.params,req.query);
+
+  if(req.query.format || req.query.w || req.query.h || req.query.q){
+
+    console.log('exports.showTrans upload.controller ..... req.query.format');
+
+    var criteria = {};
+    criteria.uploadID = req.params.id;
+    criteria.settings = {};
+
+    if(req.query.w){
+      criteria.settings.width = req.query.w;
+    }
+    if(req.query.h){
+      criteria.settings.height = req.query.h;
+    }
+    if(req.query.q){
+      criteria.settings.quality = req.query.q;
+    }
+
+    if(!req.query.format){
+      criteria.settings.ext = 'jpg';
+    }
+
+    criteria.settings.ext = req.query.format;
+
+    TransformService.show(criteria, function (err, transform) {
+
+      if(err) { return handleError(res, err); }
+
+      // console.log(' server .... ',server.address());
+
+      return res.json(transform);
+
+      //console.log('transform[0] ... ',transform[0]);
+
+      /*var url = transform[0].file.path;
+
+      return res.sendFile(url);*/
+
+    });
+
+  }
+  else{
+
+    console.log('exports.showTrans upload.controller ..... else ..');
+
+    var id = req.params.id;
+
+    UploadService.show(id, function (err, upload) {
+
+      if(err) { return handleError(res, err); }
+
+      if(!upload) { return res.status(404).send('Not Found'); }
+
+      var transformImage = [];
+      transformImage[0] = upload;
+
+      console.log('upload .. showTrans ..... ',transformImage);
+      return res.json(transformImage);
+
+
+     /* var url = transformImage[0].file.path;
+
+      console.log('upload .. showupload  ....  url ..... ',url);
+
+      return res.sendFile(url);*/
+    });
+
+  }
+
+};
+
+// Get a single upload transformed/untransformed
 exports.showUpload = function(req, res) {
 
   console.log('exports.showUpload upload.controller ..... ',req.params,req.query);

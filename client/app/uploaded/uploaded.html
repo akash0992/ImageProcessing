@@ -1,6 +1,9 @@
 <div class="col-md-12" ng-controller="UploadedCtrl as Uploaded" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
-
-
+  <header class="hero-unit" id="banner">
+    <div class="container containerCust">
+      <h1>Uploaded Image</h1>
+    </div>
+  </header>
 
   <div class = "col-sm-12 col-md-6 clearfix dist" ng-show="!Uploaded.imageArray.length > 0">
   <p>
@@ -18,7 +21,11 @@
           <input type="text" class="form-control image-preview-filename" disabled="disabled" value="{{upload.fetchUrl}}">
         </p>
 
+
         <p>
+          <a href = "#" class = "btn btn-primary pull-left" role = "button" ng-click="Uploaded.showTransform($index)">
+            Get Transformations
+          </a>
           <a href = "#" class = "btn btn-danger pull-right" role =" button" ng-click="Uploaded.delete($index)">
             Delete
           </a>

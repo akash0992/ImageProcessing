@@ -1,5 +1,9 @@
 <div class="col-md-12" ng-controller="TransformedCtrl as Transformed" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
-
+  <header class="hero-unit" id="banner">
+    <div class="container containerCust">
+      <h1>Transformations</h1>
+    </div>
+  </header>
   <div class = "col-sm-12 col-md-6 clearfix dist" ng-show="!Transformed.transformArray.length > 0">
     <p>
       No Data To Show for Transformations !!!
@@ -9,7 +13,7 @@
   <div class = "col-sm-12 col-md-6 clearfix dist" ng-repeat="Transform in Transformed.transformArray">
     <div class = "thumbnail">
       <a target="_blank" href="{{Transform.transformUrl}}">
-      <img src = '{{Transform.transformUrl}}' alt = '{{Transform.file.name}}' class=" uploadImg hoverImg" ng-click="Transformed.showTransform($index)">
+      <img src = '{{Transform.transformUrl}}' alt = '{{Transform.file.name}}' class=" uploadImg22 hoverImg" ng-click="Transformed.showTransform($index)">
     </a>
     </div>
 

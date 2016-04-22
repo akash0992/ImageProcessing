@@ -93,7 +93,10 @@ angular.module("imageProcessingApp")
 
         getTransformedImage: {
           method: 'GET',
-          isArray :false
+          params: {
+            controller: 'getTransformed'
+          },
+          isArray :true
         },
 
         post:{

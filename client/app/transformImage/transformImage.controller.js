@@ -213,17 +213,15 @@ angular.module('imageProcessingApp')
 
       console.log("transObj .... ",transObj);
 
-      UploadImageApi.getTransformedImage(transObj,function(img){
+      UploadImageApi.getTransformedImage(transObj,function(result){
 
 
 
-/*
-        TransformImage.transformedUpload = result;
+        TransformImage.transformedUpload = result[0];
 
-        TransformImage.url = result.transformUrl;
+        TransformImage.url = result[0].transformUrl;
 
-        TransformImage.deleteID = result._id;
-*/
+        TransformImage.deleteID = result[0]._id;
 
         TransformImage.display2 = false;
         TransformImage.displayPreview = true;
