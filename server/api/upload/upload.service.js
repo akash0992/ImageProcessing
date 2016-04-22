@@ -13,6 +13,8 @@ var fs = require('fs');
 // Get list of uploads(indexUpload/index)
 exports.index = function(criteria, callback) {
 
+  console.log('exports.index upload.service ..... ',criteria);
+
   Upload.find(criteria,function (err, uploads) {
 
     callback(err,uploads);
@@ -23,6 +25,8 @@ exports.index = function(criteria, callback) {
 // Get a single upload(showUpload/show)
 exports.show = function(id, callback) {
 
+  console.log('exports.show upload.service ..... ',id);
+
   Upload.findById(id, function (err, upload) {
 
     callback(err,upload);
@@ -32,6 +36,8 @@ exports.show = function(id, callback) {
 
 // Creates a new upload in the DB.(createUpload/create)
 exports.create = function(userID, file, callback) {
+
+  console.log('exports.create upload.service ..... ',userID,file);
 
   var data = {};
   data.userID = userID;
@@ -67,6 +73,9 @@ exports.create = function(userID, file, callback) {
 
 // Updates an existing upload in the DB.(updateUpload/update)
 exports.update = function(req, callback) {
+
+  console.log('exports.update upload.service ..... ',req.params,req.query);
+
   if(req.body._id) { delete req.body._id; }
   Upload.findById(req.params.id, function (err, upload) {
     if(err){
@@ -86,6 +95,8 @@ exports.update = function(req, callback) {
 
 // Deletes a upload from the DB.(destroyUpload/destroy)
 exports.destroy = function(id, callback) {
+
+  console.log('exports.destroy upload.service ..... ',id);
 
   Upload.findById(id, function (err, upload) {
 

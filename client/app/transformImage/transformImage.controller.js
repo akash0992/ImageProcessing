@@ -71,15 +71,16 @@ angular.module('imageProcessingApp')
 
     TransformImage.TransformUploadImage  = function(mass){
 
-      console.log("mass .....",mass);
+      console.log("TransformImage.TransformUploadImage .method called........ mass ...-------------------..",mass);
 
       TransformImage.obj.reset();
 
       TransformImage.object.id = mass.id;
 
       UploadImageApi.getUpload({getUploadID : TransformImage.object.id},function(result){
+        console.log('UploadImageApi.get------------------result---------',result);
 
-        TransformImage.uploaded = result;
+        TransformImage.uploaded = result[0];
 
         var url = TransformImage.uploaded.uploadUrl;
         var index = url.lastIndexOf('.');
@@ -112,9 +113,12 @@ angular.module('imageProcessingApp')
         console.log("err", err);
       });
 
-    }
+    };
 
     $rootScope.$on('transform', function(event, mass) {
+
+      console.log("on transform ......... mass ..recieved------...",mass);
+
 
       TransformImage.mass = mass;
       TransformImage.TransformUploadImage(TransformImage.mass);
@@ -207,6 +211,8 @@ angular.module('imageProcessingApp')
         transObj.w = TransformImage.obj.wVal;
       }
 
+      console.log("transObj .... ",transObj);
+
       UploadImageApi.getTransformedImage(transObj,function(img){
 
 
@@ -231,7 +237,7 @@ angular.module('imageProcessingApp')
     TransformImage.save = function(){
       TransformImage.display2 = true;
       TransformImage.displayPreview = false;
-      TransformImage.TransformUploadImage(TransformImage.mass);
+      //TransformImage.obj.reset();
 
     }
 

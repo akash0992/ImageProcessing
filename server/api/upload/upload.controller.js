@@ -13,6 +13,8 @@ var server = require('../../app');
 // Get list of uploads
 exports.indexUpload = function(req, res) {
 
+  console.log('exports.indexUpload upload.controller ..... ',req.params,req.query);
+
   var criteria = {};
   criteria.userID = req.user._id;
 
@@ -25,11 +27,11 @@ exports.indexUpload = function(req, res) {
   });
 };
 
-
 // Get a single upload
 exports.show = function(req, res) {
 
-console.log('params .... ',req.params);
+  console.log('exports.show upload.controller ..... ',req.params,req.query);
+
     var id = req.params.getUploadID;
 
     UploadService.show(id, function (err, upload) {
@@ -41,18 +43,21 @@ console.log('params .... ',req.params);
       var transformImage = [];
       transformImage[0] = upload;
 
-      console.log('upload showwwwwwwwwwwwwwwww ..... ',upload);
+      console.log('upload showwwwwwwwwwwwwwwww ..... ',transformImage);
        return res.json(transformImage);
 
     });
 
 };
 
-
 // Get a single upload transformed/untransformed
 exports.showUpload = function(req, res) {
 
-  if(req.query.format){
+  console.log('exports.showUpload upload.controller ..... ',req.params,req.query);
+
+  if(req.query.format || req.query.w || req.query.h || req.query.q){
+
+    console.log('exports.showUpload upload.controller ..... req.query.format');
 
     var criteria = {};
     criteria.uploadID = req.params.id;
@@ -66,6 +71,10 @@ exports.showUpload = function(req, res) {
     }
     if(req.query.q){
       criteria.settings.quality = req.query.q;
+    }
+
+    if(!req.query.format){
+      criteria.settings.ext = 'jpg';
     }
 
     criteria.settings.ext = req.query.format;
@@ -86,7 +95,10 @@ exports.showUpload = function(req, res) {
 
     });
 
-  }else{
+  }
+  else{
+
+    console.log('exports.showUpload upload.controller ..... else ..');
 
     var id = req.params.id;
 
@@ -99,12 +111,13 @@ exports.showUpload = function(req, res) {
       var transformImage = [];
           transformImage[0] = upload;
 
-      console.log('upload .. showupload ..... ',upload);
-      /*
-      return res.json(transformImage);*/
+      console.log('upload .. showupload ..... ',transformImage);
+      //return res.json(transformImage);
 
 
       var url = transformImage[0].file.path;
+
+      console.log('upload .. showupload  ....  url ..... ',url);
 
       return res.sendFile(url);
     });
@@ -115,6 +128,9 @@ exports.showUpload = function(req, res) {
 
 // Get a single upload all transformations
 exports.showAllUpload = function(req, res) {
+
+
+  console.log('exports.showAllUpload upload.controller ..... ',req.params,req.query);
 
     var criteria = {};
     criteria.uploadID = req.params.id;
@@ -131,6 +147,8 @@ exports.showAllUpload = function(req, res) {
 
 // Creates a new upload in the DB.
 exports.createUpload = function(req, res) {
+
+  console.log('exports.createUpload upload.controller ..... ',req.params,req.query);
 
   var userID = req.user._id;
   var file = req.file;
@@ -150,6 +168,8 @@ exports.createUpload = function(req, res) {
 // Updates an existing upload in the DB.
 exports.updateUpload = function(req, res) {
 
+  console.log('exports.updateUpload upload.controller ..... ',req.params,req.query);
+
   UploadService.update(req, function (err, upload) {
 
     if (err) { return handleError(res, err); }
@@ -164,6 +184,8 @@ exports.updateUpload = function(req, res) {
 
 // Deletes a upload from the DB.
 exports.destroyUpload = function(req, res) {
+
+  console.log('exports.destroyUpload upload.controller ..... ',req.params,req.query);
 
   var id = req.params.id;
 

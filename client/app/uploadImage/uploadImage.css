@@ -41,6 +41,16 @@ img.uploadImg{
   max-width: 100%;
   min-height: 200px;
   max-height: 200px;
+/*  height: auto;*/
+}
+
+
+img.uploadImg22{
+  /* min-width: 100%;*/
+  max-width: 100%;
+  /* min-height: 200px;
+   max-height: 200px;*/
+  height: auto;
 }
 
 .bgcolor{

@@ -6,6 +6,8 @@ var TransformService = require('./transform.service');
 // Get list of transforms
 exports.indexTransform = function(req, res) {
 
+  console.log('exports.indexTransform transform.controller ..... ',req.params,req.query);
+
   var criteria = {};
   criteria.userID = req.user._id;
 
@@ -20,6 +22,8 @@ exports.indexTransform = function(req, res) {
 
 // Get a single transform
 exports.showTransform = function(req, res) {
+
+  console.log('exports.showTransform transform.controller ..... ',req.params,req.query);
 
   var criteria = {};
   criteria.uploadID = req.params.id;
@@ -50,12 +54,11 @@ exports.showTransform = function(req, res) {
   });
 };
 
-
-
 // Get a single transform(showTransformed) uploadID
 exports.showTransformed = function(req, res) {
 
-  console.log('..... req ..... ',req.params,req.query);
+  console.log('exports.showTransformed transform.controller ..... ',req.params,req.query);
+
   var criteria = {};
   criteria.uploadID = req.params.uploadID;
 
@@ -70,6 +73,8 @@ exports.showTransformed = function(req, res) {
 
 // Creates a new transform in the DB.
 exports.createTransform = function(req, res) {
+
+  console.log('exports.createTransform transform.controller ..... ',req.params,req.query);
 
   var criteria = {};
   criteria.userID = req.user._id;
@@ -97,6 +102,8 @@ exports.createTransform = function(req, res) {
 // Updates an existing transform in the DB.
 exports.updateTransform = function(req, res) {
 
+  console.log('exports.updateTransform transform.controller ..... ',req.params,req.query);
+
   TransformService.update(req, function (err, transform) {
 
     if (err) { return handleError(res, err); }
@@ -112,6 +119,8 @@ exports.updateTransform = function(req, res) {
 // Deletes a transform from the DB.
 exports.destroyTransform = function(req, res) {
 
+  console.log('exports.destroy Transform transform.controller ..... ',req.params,req.query);
+
   var id = req.params.id;
 
   TransformService.destroy(id, function (err, transform) {
@@ -126,9 +135,10 @@ exports.destroyTransform = function(req, res) {
   });
 };
 
-
 // Deletes a transform from the DB. uploadID///////////////////////////////
   exports.destroyTransformed = function(req, res) {
+
+    console.log('exports.destroyTransformed transform.controller ..... ',req.params,req.query);
 
   var id = req.params.uploadID;
 

@@ -12,7 +12,7 @@ var auth = require('../../auth/auth.service');
 var router = express.Router();
 
 
-router.get('/getUpload/:getUploadID', controller.show);
+router.get('/getUploaded/:getUploadID', controller.show);
 router.get('/getAllTransform/:id', controller.showAllUpload);
 router.get('/:id', controller.showUpload);
 router.get('/', auth.isAuthenticated(), controller.indexUpload);

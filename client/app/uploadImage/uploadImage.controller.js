@@ -122,12 +122,13 @@ angular.module('imageProcessingApp')
       var id = UploadImage.imageArray[index]._id;
       UploadImage.object.loader = true;
       UploadImage.object.id = id;
+      console.log('UploadImage.transform($index)------------method called--------', index);
 
       $scope.$emit('transform', UploadImage.object);
 
      // $rootScope.$broadcast('transform', UploadImage.object);
 
-    }
+    };
 
     $rootScope.$on('transformDone', function(event, mass) {
       UploadImage.object.loader = mass.loader;

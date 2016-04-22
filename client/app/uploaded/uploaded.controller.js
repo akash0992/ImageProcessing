@@ -24,7 +24,7 @@ angular.module('imageProcessingApp')
       var promptFlag =  confirm("Do you want to delete this ?");
 
       if(promptFlag){
-
+        Uploaded.obj.flag = true;
         var id = Uploaded.imageArray[index]._id;
         Uploaded.obj.uploadID = Uploaded.imageArray[index]._id;
 
@@ -32,7 +32,7 @@ angular.module('imageProcessingApp')
 
           $scope.$emit('deleteTransform', Uploaded.obj);
           Uploaded.imageArray.splice(index, 1);
-          Uploaded.flag = true;
+          Uploaded.flag = false;
         });
 
       }
